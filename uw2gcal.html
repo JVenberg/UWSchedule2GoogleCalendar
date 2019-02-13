@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UW Schedule to Google Calendar</title>
+
+  <link rel="stylesheet" href="css/materialize.min.css">
+  <link rel="stylesheet" href="css/tui-calendar.min.css">
+  <link rel="stylesheet" href="css/calendar.css">
+
+  <script src="js/materialize.min.js"></script>
+  <script src="js/tui-code-snippet.js"></script>
+  <script src="js/tui-calendar.min.js"></script>
+  <script src="js/ics.js"></script>
+
+  <script src="js/schedule.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/calendarapi.js"></script>
+  <script src="js/uw2gcal.js"></script>
+</head>
+<body>
+  <nav>
+
+    <div class="nav-wrapper center">
+      <span id="logo-title">UW Schedule To Google Calendar</span>
+      <img src="img/calendarRound.png" alt="logo" class="brand-logo">
+    </div>
+
+  </nav>
+  <div class="row">
+    <div class="col m12 l7">
+      <div class="card">
+        <div class="card-content">
+          <div class="row">
+
+            <div class="col s12 m5">
+              <span id="calendar-title">Course Schedule</span>
+            </div>
+
+            <div class="col s12 m7 right-align" id="calendar-controls">
+              <a class="waves-effect waves-light btn" id="today">Today</a>
+              <a class="btn-floating waves-effect waves-light btn" id="prev-day"><i class="material-icons">chevron_left</i></a>
+              <a class="btn-floating waves-effect waves-light btn" id="next-day"><i class="material-icons">chevron_right</i></a>
+              <span id="date-range"></span>
+            </div>
+
+          </div>
+
+          <div id="calendar"></div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col m12 l5">
+      <div class="card">
+        <div class="card-content">
+          <div class="row" id="sign-in-container">
+
+            <div class="col s12">
+              <span id="sign-in-title">Google Calendar Sign In</span>
+            </div>
+
+            <div class="col s12">
+              <div class="card-panel grey lighten-5 z-depth-1" id="profile-card">
+                <div class="row valign-wrapper">
+                  <div class="col s3">
+
+                    <div class="preloader-wrapper small active hidden" id="spinner">
+                      <div class="spinner-layer">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <img src="img/blankprofile.jpg" alt="" class="circle responsive-img" id="profile-pic">
+                  </div>
+
+                  <div class="col s9">
+                    <span class="card-title" id="account-name">Sign In</span>
+                    <p id="account-email"></p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row" id="sign-in-btn-container">
+              <div class="col s12">
+                <a id="sign-in-btn" data-logged-in="false" class="waves-effect waves-light btn col s12">Sign In with Google</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12">
+          <div class="card">
+
+            <div class="card-content">
+              <span class="card-title" id="calendar-list-title">Calendar List</span>
+
+              <p id="calendar-list-info">No Calendars Loaded</p>
+              <div id="calendar-list" class="hidden"></div>
+
+            </div>
+
+            <div class="card-action">
+              <a class="waves-effect waves-light btn" id="add-events-btn">Add To Calendar</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="progress-modal" class="modal">
+    <div class="modal-content">
+      <h4>Upload Progress</h4>
+      <div class="progress" id="modal-loader">
+        <div class="indeterminate"></div>
+      </div>
+      <div id="modal-text"></div>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-close waves-effect waves-purple btn-flat">Close</a>
+    </div>
+  </div>
+</body>
+</html>

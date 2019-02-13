@@ -1,0 +1,182 @@
+
+body {
+  width: 320px;
+  min-height: 500px;
+}
+
+nav {
+  background-color: #4B2E83;
+}
+
+img.brand-logo {
+  height: 100%;
+  padding: 2px;
+}
+
+iframe {
+  width: 100%;
+  height: 370px;
+}
+
+.hidden {
+  display: none;
+}
+
+.btn {
+  background-color: #4B2E83;
+}
+
+.tabs {
+  margin-bottom: 10px;
+}
+
+.tabs > .tab > a {
+  font-size: 13px;
+  padding: 0 5px;
+  color: #765CA5;
+}
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+  background-color: #FFF;
+}
+
+.tabs > .tab > a.active, .tabs > .tab > a:hover {
+  color: #4B2E84;
+}
+
+.tabs > .tab.disabled > a, .tabs > .tab.disabled > a:hover{
+  color: #B1A6C6;
+}
+
+.tabs .indicator {
+  background-color: #4B2E84;
+}
+
+.btn {
+  width: 100%;
+}
+
+.btn:hover {
+  background-color: #30016F;
+}
+
+#schedule {
+  display: block;
+  overflow: auto;
+  max-height: 255px;
+  width: 100%;
+}
+
+#schedule-container {
+  height: 270px;
+}
+
+#uw-sign-in-container > h5 {
+  font-weight: bold;
+}
+
+#ical-info {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+#custom_cal {
+  margin-top: 6px;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+#custom_cal > input {
+  margin-bottom: 0;
+  height: 32px;
+}
+
+.collection-item > label {
+  color: black;
+  font-size: 11px;
+}
+
+.collection-item.active > div > label {
+  color: white;
+}
+
+#cal-list > p {
+  margin: 15px 0;
+}
+
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {
+  background-color: #4B2E83;
+  border-color: #4B2E83;
+}
+
+.collection a.collection-item {
+  color: #000;
+}
+
+.collection {
+  padding: 0;
+}
+
+.collection .collection-item.active {
+  background-color: #4B2E83;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.card {
+  margin-top: 0;
+}
+
+.card .card-content {
+  padding: 10px;
+}
+
+#calendar-list > div {
+  display: block;
+  overflow: auto;
+  max-height: 190px;
+  width: 100%;
+}
+
+#sign-in-btn {
+  visibility: hidden;
+}
+
+.collection input:not([type]):focus:not([readonly]), .collection input[type=text]:not(.browser-default):focus:not([readonly]) {
+  border-color: white;
+  box-shadow: 0 1px 0 0 white;
+}
+
+.collection .input-field input[type=text]:focus + label, .collection .input-field input {
+  color: white!important;
+}
+
+.progress {
+  background-color: #B194E9;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.progress div {
+  background-color: #4B2E83!important;
+}
+
+.spinner-layer {
+  border-color: #4B2E83;
+}
+
+#custom_cal input {
+  font-size: 12px;
+}
+
+#choose-calendar {
+  margin-bottom: 0;
+}
+
+#refresh-cal {
+  float: right;
+}

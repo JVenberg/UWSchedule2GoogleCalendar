@@ -1,0 +1,280 @@
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  src: url("Montserrat.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("MaterialIcons-Regular.woff2") format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+nav {
+  background-color: #4B2E83;
+}
+
+img.brand-logo {
+  height: 100%;
+  padding: 2px;
+}
+
+#logo-title {
+  font-size: 35px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+@media only screen and (max-width: 992px) {
+  #logo-title {
+    display: none;
+  }
+}
+
+#calendar {
+  height: 100%;
+}
+
+#date-range, #calendar-title, #sign-in-title, #calendar-list-title {
+  font-size: 20px;
+  line-height: 40px;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+#calendar-title, #sign-in-title, #calendar-list-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+}
+
+#calendar-controls > a {
+  margin: 0 5px;
+}
+
+#sign-in-btn-container > div {
+  padding: 0 1.5rem;
+}
+
+#sign-in-btn-container, #sign-in-container {
+  margin-bottom: 0;
+}
+
+#calendar-list-info {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+[type="radio"]:checked + span:after, [type="radio"].with-gap:checked + span:after {
+  background-color: #4B2E83;
+}
+
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+  border-color: #4B2E83;
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly]) {
+  border-bottom-color: #4B2E83;
+  box-shadow: 0 1px 0 0 #4B2E83;
+}
+
+#calendar-list p:last-child span {
+  color: #333;
+}
+
+#calendar-list span {
+  font-size: 18px;
+}
+
+#calendar-list p {
+  margin-bottom: 5px;
+}
+
+#calendar-list .input-field {
+  margin: 0;
+  margin-top: -5px;
+}
+
+#calendar-list .input-field input {
+  margin: 0;
+  height: 20px;
+}
+
+.btn, .btn-small, .btn:focus, .btn-small:focus {
+  background-color: #4B2E83;
+}
+
+.btn:hover, .btn-small:hover {
+  background-color: #30016F;
+}
+
+.hidden {
+  display: none;
+}
+
+.spinner-layer {
+  border-color: #4B2E83;
+}
+
+#profile-card .row {
+  margin-bottom: 0;
+}
+
+#profile-card {
+  padding: 10px;
+}
+
+#profile-card img {
+  width: 70px;
+}
+
+#spinner {
+  height: 60px;
+  width: 60px;
+  margin: 5px;
+}
+
+.progress {
+  background-color: #B194E9;
+}
+
+.progress div {
+  background-color: #4B2E83!important;
+}
+
+
+/* ########################################### */
+
+/*
+
+
+#schedule {
+  display: block;
+  overflow: auto;
+  max-height: 255px;
+  width: 100%;
+}
+
+#schedule-container {
+  height: 270px;
+}
+
+#uw-sign-in-container > h5 {
+  font-weight: bold;
+}
+
+#ical-info {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+#custom_cal {
+  margin-top: 6px;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+#custom_cal > input {
+  margin-bottom: 0;
+  height: 32px;
+}
+
+.collection-item > label {
+  color: black;
+  font-size: 11px;
+}
+
+.collection-item.active > div > label {
+  color: white;
+}
+
+#cal-list > p {
+  margin: 15px 0;
+}
+
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {
+  background-color: #4B2E83;
+  border-color: #4B2E83;
+}
+
+.collection a.collection-item {
+  color: #000;
+}
+
+.collection {
+  padding: 0;
+}
+
+.collection .collection-item.active {
+  background-color: #4B2E83;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.card {
+  margin-top: 0;
+}
+
+.card .card-content {
+  padding: 10px;
+}
+
+#calendar-list > div {
+  display: block;
+  overflow: auto;
+  max-height: 190px;
+  width: 100%;
+}
+
+.collection input:not([type]):focus:not([readonly]), .collection input[type=text]:not(.browser-default):focus:not([readonly]) {
+  border-color: white;
+  box-shadow: 0 1px 0 0 white;
+}
+
+.collection .input-field input[type=text]:focus + label, .collection .input-field input {
+  color: white!important;
+}
+
+.progress {
+  background-color: #B194E9;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.progress div {
+  background-color: #4B2E83!important;
+}
+
+#custom_cal input {
+  font-size: 12px;
+}
+
+#choose-calendar {
+  margin-bottom: 0;
+}
+
+#refresh-cal {
+  float: right;
+} */
