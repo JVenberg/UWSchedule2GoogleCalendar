@@ -24,7 +24,12 @@ function Schedule(newSchedule) {
         let end_date = new Date(response.term.last_day_instruction);
         end_date.setDate(end_date.getDate() + 1);
 
+
         let location = section.meetings[j].building_name + " " + section.meetings[j].room;
+        if (!section.meetings[j].building_name) {
+          location = section.meetings[j].building + " " + section.meetings[j].room;
+        }
+
         if (section.meetings[j].building_tbd) {
           location = "Room TBD";
         }
@@ -37,7 +42,7 @@ function Schedule(newSchedule) {
             earliestDay = dayIndex;
           }
         }
-        let first_day = new Date("2019-01-07");
+        let first_day = new Date(response.term.first_day_quarter);
         first_day.setDate(first_day.getDate() + (earliestDay + 6 - first_day.getDay()) % 7);
 
         let type = section.section_type.charAt(0).toUpperCase() + section.section_type.substr(1);
@@ -75,6 +80,7 @@ function Schedule(newSchedule) {
     this.scheduleData = {};
     this.scheduleData.courses = classes;
     this.scheduleData.label = response.term.label;
+    this.scheduleData.first_day = response.term.first_day_quarter;
 
     chrome.storage.sync.set({"scheduleData": this.scheduleData}, () => {
       console.log("Stored calendar: " + this.scheduleData);
@@ -99,7 +105,7 @@ function Schedule(newSchedule) {
     return color;
   }
 
-  this.fillCalendar = function(data) {
+  this.fillCalendar = function(data, start_date) {
     let schedules = [];
 
     let calendarSet = new Set();
@@ -113,6 +119,7 @@ function Schedule(newSchedule) {
       scheduleEntry["id"] = i;
       scheduleEntry["calendarId"] = dataEntry.curr_abbr + "-" + dataEntry.course_num;
       scheduleEntry["title"] = dataEntry.title;
+      scheduleEntry["body"] = dataEntry.description;
       scheduleEntry["category"] = "time";
       scheduleEntry["start"] = startTime.toISOString();
       scheduleEntry["end"] = endTime.toISOString();
@@ -141,7 +148,11 @@ function Schedule(newSchedule) {
         }
       }
     }
+
+    this.calendar.clear();
     this.calendar.createSchedules(schedules);
+    this.calendar.setDate(new Date(start_date));
+    this.updateRange(document.getElementById("date-range"));
 
     for (let id of calendarSet) {
       this.calendar.setCalendarColor(id, {
@@ -157,6 +168,7 @@ function Schedule(newSchedule) {
       defaultView: 'week',
       taskView: false,
       isReadOnly: true,
+      useDetailPopup: true,
       week: {
           narrowWeekend: true,
           hourStart: 7,
@@ -172,7 +184,7 @@ function Schedule(newSchedule) {
 
     this.getScheduleData((scheduleData) => {
       if (scheduleData) {
-        this.fillCalendar(scheduleData.courses);
+        this.fillCalendar(scheduleData.courses, scheduleData.first_day);
       } else {
         this.calendar.clear();
       }
@@ -181,7 +193,7 @@ function Schedule(newSchedule) {
     chrome.storage.onChanged.addListener((changes, areaName) => {
       if (areaName === "sync" && changes.scheduleData) {
         if (changes.scheduleData.newValue) {
-          this.fillCalendar(changes.scheduleData.newValue.courses);
+          this.fillCalendar(changes.scheduleData.newValue.courses, changes.scheduleData.newValue.first_day);
         } else {
           this.calendar.clear();
         }

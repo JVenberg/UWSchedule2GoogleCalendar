@@ -22,7 +22,8 @@
     }
   ],
   "web_accessible_resources": [
-    "img/*.png"
+    "img/*.png",
+    "js/grabSchedule.js"
   ],
   "permissions": [
     "tabs",

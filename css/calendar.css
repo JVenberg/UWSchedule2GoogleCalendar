@@ -101,6 +101,7 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
 }
 
 #calendar-list span {
+  font-weight: bold;
   font-size: 18px;
 }
 

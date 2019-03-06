@@ -42,7 +42,6 @@ function Auth(options) {
   }
 
   this.getUserData = function(token, callback) {
-    console.log(token);
     fetch("https://www.googleapis.com/oauth2/v3/userinfo", {headers: new Headers(
           {'Authorization': 'Bearer ' + token}
     )})
@@ -106,7 +105,6 @@ function Auth(options) {
     this.getToken((token) => {
       this.checkToken(token, (info) => {
         if (info) {
-          console.log(info);
           this.getUserData(token, callback);
           this.expireTimer = setTimeout(() => { this.removeAccessToken(); }, info.expires_in * 1000);
         }

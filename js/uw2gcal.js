@@ -55,7 +55,7 @@ function updateCalendarList(calListData) {
       input.type = "radio";
       input.value = calendarList[i].id;
 
-      span.style.color = shadeHexColor(calendarList[i].backgroundColor, -0.35);
+      span.style.color = shadeHexColor(calendarList[i].backgroundColor, -0.2);
       span.innerText = calendarList[i].summary;
 
       label.appendChild(input);
