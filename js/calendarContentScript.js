@@ -1,42 +1,26 @@
 
-window.addEventListener("load", function () {
-  addCalendarChangeListener();
-});
+loadScript("js/insertButton.js", chrome.extension.getURL("img/calendarAdd.png"), "buttonLoader");
 
 window.addEventListener("message", function(event) {
   // We only accept messages from ourselves
   if (event.source != window)
     return;
-
-  if (event.data.type && (event.data.type == "FROM_PAGE")) {
-    chrome.runtime.sendMessage({greeting: "newSchedule", scheduleString: event.data.schedule});
+  if (event.data.type) {
+    if (event.data.type == "schedule") {
+      chrome.runtime.sendMessage({greeting: "newSchedule", scheduleString: event.data.schedule});
+    } else if (event.data.type == "newTab") {
+      chrome.runtime.sendMessage({greeting: "openNewTab"});
+    }
   }
 }, false);
 
-function grabSchedule() {
+function loadScript(script, data, id) {
   let s = document.createElement('script');
   s.setAttribute('type', 'text/javascript');
-  s.setAttribute('src', chrome.extension.getURL("js/grabSchedule.js"));
+  s.setAttribute('src', chrome.extension.getURL(script));
+  s.dataset.imgUrl = data;
+  s.id = id;
   document.body.appendChild(s);
-  chrome.runtime.sendMessage({greeting: "openNewTab"});
-}
-
-function addCalendarChangeListener() {
-  let schedule = qs("#VisualScheduleCard");
-  new MutationObserver(function() {
-    if (!document.getElementById("scheduleToCalendar")) {
-      addButton(schedule);
-    }
-  }).observe(schedule, {characterData: true,childList: true, subtree: true});
-}
-
-function addButton(schedule) {
-  let scheduleCard = qs("div", schedule);
-  let button = document.createElement("div");
-  button.id = "scheduleToCalendar";
-  button.style.backgroundImage = "url('" + chrome.extension.getURL("img/calendarAdd.png") + "')";
-  button.addEventListener("click", grabSchedule);
-  scheduleCard.insertBefore(button, scheduleCard.children[0]);
 }
 
 function qs(query, element) {
