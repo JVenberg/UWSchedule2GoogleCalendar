@@ -35,9 +35,7 @@ function addButton(schedule) {
   let button = document.createElement("div");
   button.id = "scheduleToCalendar";
   button.style.backgroundImage = "url('" + chrome.extension.getURL("img/calendarAdd.png") + "')";
-  button.addEventListener("click", function() {
-    grabSchedule();
-  });
+  button.addEventListener("click", grabSchedule);
   scheduleCard.insertBefore(button, scheduleCard.children[0]);
 }
 

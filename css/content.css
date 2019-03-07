@@ -4,4 +4,8 @@
   float: right;
   background-size: contain;
   cursor: pointer;
+  position: relative;
+  z-index: 1;
+  right: 10px;
+  top: 10px;
 }

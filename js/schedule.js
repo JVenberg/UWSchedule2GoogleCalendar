@@ -1,6 +1,7 @@
 
 function Schedule(newSchedule) {
   this.WEEKDAYS = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
+  this.MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
   this.scheduleData = null;
 
   this.parseAndSaveSchedule = function(response, todayBtn, prevBtn, nextBtn, range){
@@ -90,10 +91,10 @@ function Schedule(newSchedule) {
   this.updateRange = function(range) {
     range.innerText = "";
     let start = this.calendar.getDateRangeStart().toDate();
-    range.innerText += start.getMonth() + 1 + "/" + start.getDate();
+    range.innerText += start.getDate() + " " + this.MONTHS[start.getMonth()];
     range.innerText += " - ";
     let end = this.calendar.getDateRangeEnd().toDate();
-    range.innerText += end.getMonth() + 1 + "/" + end.getDate() + "/" + (1900 + end.getYear());
+    range.innerText += end.getDate() + " " + this.MONTHS[end.getMonth()] + " " + (1900 + end.getYear());
   }
 
   this.getRandomColor = function() {
