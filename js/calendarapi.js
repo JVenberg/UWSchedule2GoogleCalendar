@@ -57,7 +57,11 @@ function CalAPI(auth, schedule) {
             this.postWithToken("https://www.googleapis.com/calendar/v3/calendars/" + calID + "/events/import",
               eventData,
               (data) => {
-                let logData = {type: "newEvent", data: JSON.parse(data), total:this.numOfCourses, current:i}
+                let logData = {
+                  type: "newEvent",
+                  data: JSON.parse(data),
+                  course: course,
+                  total:this.numOfCourses, current:i}
                 logFunction(logData);
               }
             );

@@ -71,7 +71,7 @@ function updateCalendarList(calListData) {
           <span> \
             New Calendar: \
             <span class="input-field inline"> \
-              <input id="new-calendar-name" type="text"> \
+              <input id="new-calendar-name" placeholder="Name" type="text"> \
             </span> \
           </span> \
         </label> \
@@ -113,18 +113,79 @@ function updateUserInfo(userData) {
   }
 }
 
-function openModal() {
-  let instance = M.Modal.getInstance($("progress-modal"));
-  instance.open();
+function openModal(scheduleData, calendarName) {
+  let closeBtn = qs("#progress-modal .modal-close");
+  closeBtn.innerText = "Close";
+  closeBtn.classList.remove("btn");
+  closeBtn.classList.add("btn-flat");
 
+  let instance = M.Modal.getInstance($("progress-modal"));
   $("modal-loader").classList.remove("hidden");
+
   $("modal-text").innerHTML = "";
+  let courseCollection = document.createElement("ul");
+  courseCollection.classList.add("collection");
+
+  let courseDictionary = {};
+  for (let course of scheduleData.courses) {
+    if (course.start_time) {
+      let title = course.curr_abbr + " " + course.course_num + " - " + course.course_title;
+      if (courseDictionary[title]) {
+        courseDictionary[title] += 1;
+      } else {
+        courseDictionary[title] = 1;
+      }
+    }
+  }
+
+  if (calendarName) {
+    courseCollection.classList.add("with-header")
+    let list = createLoadListElement("NEW CALENDAR: " + calendarName, 1);
+    list.classList.remove("collection-item");
+    list.classList.add("collection-header");
+    courseCollection.appendChild(list);
+  }
+
+  for (let [courseName, eventNumber] of Object.entries(courseDictionary)) {
+    courseCollection.appendChild(createLoadListElement(courseName, eventNumber));
+  }
+
+  $("modal-text").appendChild(courseCollection);
+  instance.open();
 }
 
-function updateModal(text, done) {
-  $("modal-text").innerHTML += "<p>" + text + "</p>";
-  if (done) {
-    $("modal-loader").classList.add("hidden");
+function createLoadListElement(courseName, eventNumber) {
+  let list = document.createElement("li");
+  list.classList.add("collection-item");
+  list.innerText = courseName;
+  list.dataset.title = courseName;
+
+  let outerLoader = document.createElement("div");
+  let innerLoader = document.createElement("div");
+  outerLoader.classList.add("progress");
+
+  innerLoader.classList.add("determinate");
+  innerLoader.dataset.total = eventNumber;
+  innerLoader.dataset.current = 0;
+  innerLoader.style.width = "0%";
+
+  outerLoader.appendChild(innerLoader);
+  list.appendChild(outerLoader);
+  return list;
+}
+
+function updateModal(title, currentEventNum, totalEventsNum) {
+  let courseLi = $("modal-text").querySelector("li[data-title='" + title + "'] .determinate");
+  courseLi.dataset.current = parseInt(courseLi.dataset.current) + 1;
+  courseLi.style.width = parseInt(courseLi.dataset.current) / parseInt(courseLi.dataset.total) * 100 + "%";
+
+  qs("#modal-loader > div").style.width = currentEventNum / totalEventsNum * 100 + "%";
+
+  if (currentEventNum == totalEventsNum) {
+    let closeBtn = qs("#progress-modal .modal-close");
+    closeBtn.classList.remove("btn-flat");
+    closeBtn.classList.add("btn");
+    closeBtn.innerText = "Done";
   }
 }
 
@@ -141,30 +202,41 @@ function resetLoginCredentials() {
 }
 
 function addEvents() {
-  let selectedRadio = qs('input[name="calendar-list-radio"]:checked');
-  if (selectedRadio) {
-    currentEventNum = 0;
-    openModal();
-    if (selectedRadio.value === "new-calendar") {
-      calAPI.newCalendar($("new-calendar-name").value, logNewEvents)
-    } else {
-      calAPI.addEvents(selectedRadio.value, logNewEvents)
+  schedule.getScheduleData(function(scheduleData) {
+    let selectedRadio = qs('input[name="calendar-list-radio"]:checked');
+    if (selectedRadio) {
+      currentEventNum = 0;
+      if (selectedRadio.value === "new-calendar") {
+        openModal(scheduleData, $("new-calendar-name").value);
+        calAPI.newCalendar($("new-calendar-name").value, logNewEvents)
+      } else {
+        openModal(scheduleData);
+        calAPI.addEvents(selectedRadio.value, logNewEvents)
+      }
     }
-  }
+  });
 }
 
 function logNewEvents(data) {
   if (data.type === "newCalendar") {
-    updateModal("Created Calendar: " + data.data.summary, false);
+    console.log("NEW CALENDAR: " + data.data.summary);
+    updateModal("NEW CALENDAR: " + data.data.summary, currentEventNum, data.total);
   } else {
     currentEventNum++;
-    updateModal("Added Event: " + data.data.summary + " " + currentEventNum + "/"+ data.total, currentEventNum >= data.total);
+    updateModal(data.course.curr_abbr + " " + data.course.course_num + " - " + data.course.course_title, currentEventNum, data.total);
   }
 }
 
 function shadeHexColor(color, percent) {
-    var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
-    return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+    let f = parseInt(color.slice(1),16);
+    let t = percent < 0 ? 0:255;
+    let p = percent < 0 ? percent * -1 : percent;
+    let R = f >> 16;
+    let G = f >> 8 & 0x00FF;
+    let B = f & 0x0000FF;
+    return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+                              (Math.round((t - G) * p) + G) * 0x100 +
+                              (Math.round((t - B) * p) + B)).toString(16).slice(1);
 }
 
 function qs(query) {

@@ -105,6 +105,12 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   color: #333;
 }
 
+#new-calendar-name {
+  margin: 0;
+  height: 20px;
+  margin-left: 3px;
+}
+
 #calendar-list span {
   font-weight: bold;
   font-size: 18px;
@@ -117,11 +123,6 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
 #calendar-list .input-field {
   margin: 0;
   margin-top: -5px;
-}
-
-#calendar-list .input-field input {
-  margin: 0;
-  height: 20px;
 }
 
 .btn, .btn-small, .btn:focus, .btn-small:focus {
@@ -156,6 +157,19 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   height: 60px;
   width: 60px;
   margin: 5px;
+}
+
+#modal-text .collection-item > span{
+  float: right;
+}
+
+#modal-text .progress {
+  width: 150px;
+  float: right;
+}
+
+#progress-modal .modal-content {
+  padding-bottom: 12px;
 }
 
 .progress {
