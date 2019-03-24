@@ -7,11 +7,12 @@ let currentEventNum = 0;
 window.addEventListener("load", function() {
   M.AutoInit();
 
-  $("sign-in-btn").addEventListener("click", toggleLogin);
-  $("add-events-btn").addEventListener("click", addEvents);
-
   schedule = new Schedule();
   schedule.setupCalendar($("calendar"), $("today"), $("next-day"), $("prev-day"), $("date-range"));
+
+  $("sign-in-btn").addEventListener("click", toggleLogin);
+  $("add-events-btn").addEventListener("click", addEvents);
+  $("download-ics-btn").addEventListener("click", schedule.downloadICS);
 
   auth = new Auth({
     "signInCallback": (userData) => {
@@ -112,6 +113,7 @@ function updateUserInfo(userData) {
     resetLoginCredentials();
   }
 }
+
 
 function openModal(scheduleData, calendarName) {
   let closeBtn = qs("#progress-modal .modal-close");

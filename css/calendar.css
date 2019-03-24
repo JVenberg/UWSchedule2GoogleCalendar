@@ -125,6 +125,10 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   margin-top: -5px;
 }
 
+#download-ics-btn {
+  float: right;
+}
+
 .btn, .btn-small, .btn:focus, .btn-small:focus {
   background-color: #4B2E83;
 }

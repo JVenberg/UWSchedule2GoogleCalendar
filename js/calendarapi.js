@@ -25,7 +25,9 @@ function CalAPI(auth, schedule) {
   }
 
   this.addEvents = function(calID, logFunction) {
+    let DateTime = luxon.DateTime;
     schedule.getScheduleData((scheduleData) => {
+      console.log(scheduleData);
       if (scheduleData) {
         let courses = scheduleData.courses;
         this.numOfCourses = 0;
@@ -34,11 +36,11 @@ function CalAPI(auth, schedule) {
           if (course.start_time) { // Checks if online class
             let eventData = {
               "start": {
-                "dateTime": (new Date(course.start_time)).toISOString(),
+                "dateTime": this.toGoogleDateFormat(course.start_time),
                 "timeZone": "America/Los_Angeles"
               },
               "end": {
-                "dateTime": (new Date(course.end_time)).toISOString(),
+                "dateTime": this.toGoogleDateFormat(course.end_time),
                 "timeZone": "America/Los_Angeles"
               },
               "summary": course.title,
@@ -54,6 +56,7 @@ function CalAPI(auth, schedule) {
                 ";BYDAY=" + course.byday.join(",")
               ];
             }
+            // console.log(eventData);
             this.postWithToken("https://www.googleapis.com/calendar/v3/calendars/" + calID + "/events/import",
               eventData,
               (data) => {
@@ -70,6 +73,10 @@ function CalAPI(auth, schedule) {
         }
       }
     })
+  }
+
+  this.toGoogleDateFormat = function(dateAndTime) {
+    return dateAndTime.replace(/ /g, "T") + ":00.000";
   }
 
   this.newCalendar = function(calName, logFunction) {

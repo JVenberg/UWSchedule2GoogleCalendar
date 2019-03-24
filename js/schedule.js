@@ -203,14 +203,61 @@ function Schedule(newSchedule) {
   }
 
   this.getScheduleData = function(callback) {
-    if (this.scheduleData) {
+    chrome.storage.sync.get(["scheduleData"], (data) => {
+      this.scheduleData = data.scheduleData;
       callback(this.scheduleData);
-    } else {
-      chrome.storage.sync.get(["scheduleData"], (data) => {
-        this.scheduleData = data.scheduleData;
-        callback(this.scheduleData);
-      });
-    }
+    });
+  }
+
+  this.downloadICS = () => {
+    this.getScheduleData((scheduleData) => {
+      let cal = ics();
+      for (let i = 0; i < scheduleData.courses.length; i++) {
+        let course = scheduleData.courses[i];
+        if (course.start_time) {
+          if (course.until) {
+            cal.addEvent(
+              course.title,
+              course.description,
+              course.location,
+              course.start_time,
+              course.end_time,
+              {
+                freq: course.freq,
+                until: course.until,
+                byday: course.byday,
+              }
+            );
+          } else {
+            cal.addEvent(
+              course.title,
+              course.description,
+              course.location,
+              course.start_time,
+              course.end_time
+            );
+          }
+        }
+      }
+      cal.download("Schedule");
+    });
+  }
+
+  this.saveAs = function(blob, name) {
+    let url = URL.createObjectURL(blob);
+    chrome.permissions.request({
+            permissions: ['downloads']
+    }, function(granted) {
+      if (granted) {
+        chrome.downloads.download({
+          url: url,
+          filename: name,
+          conflictAction: "uniquify"
+        });
+      } else {
+        doSomethingElse();
+      }
+    });
   }
 
   if (typeof newSchedule === "string") {
