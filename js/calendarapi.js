@@ -25,7 +25,6 @@ function CalAPI(auth, schedule) {
   }
 
   this.addEvents = function(calID, logFunction) {
-    let DateTime = luxon.DateTime;
     schedule.getScheduleData((scheduleData) => {
       console.log(scheduleData);
       if (scheduleData) {
