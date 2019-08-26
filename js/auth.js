@@ -26,6 +26,7 @@ function Auth(options) {
   this.getNewAccessToken = function(callback) {
     chrome.identity.launchWebAuthFlow({'url': this.url, 'interactive': true}, function (redirectedTo) {
         if (chrome.runtime.lastError) {
+          console.log(chrome.runtime.lastError.message);
           callback(null);
         } else {
           let url = new URL(redirectedTo.replace("#", "?"));
