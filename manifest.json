@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "UW Schedule to Google Calendar",
   "description": "Adds University of Washington class schedule to Google Calendar.",
-  "version": "0.0.0.7",
+  "version": "0.0.0.8",
   "author": "Jack Venberg",
   "icons": {
     "128": "img/calendar.png"
@@ -34,7 +34,7 @@
   ],
   "optional_permissions": ["downloads"],
   "oauth2": {
-    "client_id": "27717438855-h3dr1msj1158ett67g99jgp2bpans90i.apps.googleusercontent.com",
+    "client_id": "622291156743-j4ia5n590engurre07bfdr98q5o74298.apps.googleusercontent.com",
     "scopes": [
       "openid", "email", "profile", "https://www.googleapis.com/auth/calendar"
     ]

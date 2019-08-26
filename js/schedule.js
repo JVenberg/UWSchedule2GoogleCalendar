@@ -4,7 +4,7 @@ function Schedule(newSchedule) {
   this.MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
   this.scheduleData = null;
 
-  this.parseAndSaveSchedule = function(response, todayBtn, prevBtn, nextBtn, range){
+  this.parseAndSaveSchedule = function(response, todayBtn, prevBtn, nextBtn, range) {
     response = JSON.parse(response);
 
     let classes = [];
@@ -13,7 +13,6 @@ function Schedule(newSchedule) {
       let section = response.sections[i];
 
       for (let j = 0; j < section.meetings.length; j++) {
-
         let meeting_days = section.meetings[j].meeting_days;
         let days = [];
         for (let day in meeting_days) {
@@ -35,16 +34,13 @@ function Schedule(newSchedule) {
           location = "Room TBD";
         }
 
-        let earliestDay = 10;
-        for (let i = 0; i < days.length; i++) {
-          let day = days[i];
-          let dayIndex = this.WEEKDAYS.indexOf(day);
-          if (dayIndex != -1 && dayIndex < earliestDay) {
-            earliestDay = dayIndex;
+        let dateSplit = response.term.first_day_quarter.split('-');
+        let first_day = new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2]);
+        if (days.length > 0) {
+          while (!days.includes(this.WEEKDAYS[first_day.getDay()])) {
+            first_day.setDate(first_day.getDate() + 1);
           }
         }
-        let first_day = new Date(response.term.first_day_quarter);
-        first_day.setDate(first_day.getDate() + (earliestDay + 6 - first_day.getDay()) % 7);
 
         let type = section.section_type.charAt(0).toUpperCase() + section.section_type.substr(1);
         if (section.final_exam && !section.final_exam.no_exam_or_nontraditional && section.final_exam.start_date && section.final_exam.building) {
@@ -107,6 +103,7 @@ function Schedule(newSchedule) {
   }
 
   this.fillCalendar = function(data, start_date) {
+    console.log(data);
     let schedules = [];
 
     let calendarSet = new Set();

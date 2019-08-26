@@ -4,13 +4,13 @@ function Auth(options) {
   this.clientId = encodeURIComponent(this.manifest.oauth2.client_id);
   this.scopes = encodeURIComponent(this.manifest.oauth2.scopes.join(' '));
   this.redirectUri = encodeURIComponent(chrome.identity.getRedirectURL());
-  this.url = 'https://accounts.google.com/o/oauth2/auth' +
+  this.url = 'https://accounts.google.com/o/oauth2/v2/auth' +
             '?client_id=' + this.clientId +
             '&response_type=' + encodeURIComponent("id_token token") +
             '&prompt=select_account' +
             '&redirect_uri=' + this.redirectUri +
-            '&scope=' + this.scopes;
-
+            '&scope=' + this.scopes +
+            '&nonce=' + Math.random();
   this.expireTimer = null;
   this.token = null;
 
@@ -26,7 +26,6 @@ function Auth(options) {
   this.getNewAccessToken = function(callback) {
     chrome.identity.launchWebAuthFlow({'url': this.url, 'interactive': true}, function (redirectedTo) {
         if (chrome.runtime.lastError) {
-          console.log(chrome.runtime.lastError.message);
           callback(null);
         } else {
           let url = new URL(redirectedTo.replace("#", "?"));
