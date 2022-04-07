@@ -8,14 +8,16 @@ function addButton(schedule) {
 }
 
 function grabSchedule () {
-  console.log("Test");
-  window.postMessage({ type: "schedule", schedule: JSON.stringify(WSData.course_data_for_term(VisualScheduleCard.term))}, "*");
-  window.postMessage({ type: "newTab", newSchedule: JSON.stringify(WSData.course_data_for_term(VisualScheduleCard.term))}, "*");
+  const schedule = document.getElementById('myuw-visual-schedule').__vue__.$store.state.visual_schedule.value.current;
+  schedule.sections = schedule.periods[0].sections;
+  window.postMessage({ type: "schedule", schedule: JSON.stringify(schedule)}, "*");
+  window.postMessage({ type: "newTab", newSchedule: JSON.stringify(schedule)}, "*");
 }
 
-let oldHandler = VisualScheduleCard.render_handler;
-VisualScheduleCard.render_handler = function() {
-  oldHandler();
-  addButton(VisualScheduleCard.dom_target[0])
-}
-VisualScheduleCard.render_init()
+const buttonTimer = setInterval(() => {
+  const ele = document.getElementById('myuw-visual-schedule');
+  if (ele) {
+      addButton(ele.children[0]);
+      clearInterval(buttonTimer);
+  }
+}, 500);

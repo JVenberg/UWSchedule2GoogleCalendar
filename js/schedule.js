@@ -34,8 +34,7 @@ function Schedule(newSchedule) {
           location = "Room TBD";
         }
 
-        let dateSplit = response.term.first_day_quarter.split('-');
-        let first_day = new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2]);
+        let first_day = new Date(response.term.first_day_quarter);
         if (days.length > 0) {
           while (!days.includes(this.WEEKDAYS[first_day.getDay()])) {
             first_day.setDate(first_day.getDate() + 1);
@@ -65,8 +64,8 @@ function Schedule(newSchedule) {
           "title": section.curriculum_abbr + " " + section.course_number + " (" + type + ")",
           "description": section.curriculum_abbr + " " + section.course_number + " - " + section.course_title,
           "location": location,
-          "start_time": (section.meetings[j].start_time) ? (first_day.toISOString().substring(0, 10) + " " + section.meetings[j].start_time) : null,
-          "end_time": (section.meetings[j].start_time) ? (first_day.toISOString().substring(0, 10) + " " + section.meetings[j].end_time) : null,
+          "start_time": (section.meetings[j].start_time) ? (first_day.toISOString().substring(0, 10) + "T" + section.meetings[j].start_time.substring(11)) : null,
+          "end_time": (section.meetings[j].start_time) ? (first_day.toISOString().substring(0, 10) + "T" + section.meetings[j].end_time.substring(11)) : null,
           "freq": "WEEKLY",
           "until": end_date.toString(),
           "byday": days
